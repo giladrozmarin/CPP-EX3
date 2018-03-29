@@ -1,0 +1,7 @@
+Mostly I just use (in the Terminal):
+
+git status
+git add .
+git commit -m “Updating blah blah”
+git push
+git pull
