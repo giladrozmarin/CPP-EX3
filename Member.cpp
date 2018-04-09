@@ -1,71 +1,58 @@
-#include "Member.h"
-#include <vector>
 #include <iostream>
+#include <map>
+#include "Member.h"
 using namespace std;
 
- 
-    vector<Member> _listOfFollowing; 
-    vector<Member> _listOfFollowers;
-    int _id;
-    int Member::_count=0; //initilization
-  //  int  _count;
-    Member::Member(){
-      _id++;
-      _count++;
-    }
-    
-     Member::~Member(){
-      _count--;
-    }
-    
 
-    void Member::follow(Member &newMember){
-        //check if i'm the Member;
-        if(&newMember == this){
-            return;
-        }
+ int Member::count_members=0; //initilization
+ int Member::nextId=0; // initilization
 
-        //check if the Member is inside the Vector already;
-        for(Member const& i : _listOfFollowing){
-         if(newMember._id == i._id){
-            return;
-         }
-        }
+	Member::Member(){		  //implimentation construter
+		count_members++;
+		(*this).id=nextId;
+		nextId++;
+	}
 
-        //add new follow member;
-        _listOfFollowing.push_back(newMember);
-        newMember._listOfFollowers.push_back(*this);
-    }
+	int Member::getId(){       //implimentation return id
+		return this->id;
+  	}
 
-    void  Member::unfollow(Member &delMember){    
-        int count = 0;
-      //check if thr current Member his the newMember;
-        if(&delMember == this){
-        return;
-        }
-         //check if the Member is inside the Vector and erase him;
-        for(Member const& i : _listOfFollowing){
-        if(delMember._id == i._id){
-           _listOfFollowing.erase(_listOfFollowing.begin()+count);
-            break;
-        }
-         count++;
-     }
-     count = 0;
-     for(Member j : _listOfFollowers){
-      if(j._id == _id){
-           cout << _id << endl; 
-            delMember._listOfFollowers.erase(_listOfFollowers.begin() + count);
-                     return;
-                }
-                count++;
-     }
-     //"the Member not exist"
-} 
-  
-  unsigned int  Member::numFollowers(){
-       return _listOfFollowers.size();
-   }
-   unsigned int  Member::numFollowing(){
-       return _listOfFollowing.size();
-   }
+
+	int Member::numFollowing(){       //implimentation return num_of_Following
+		return this->follows.size();
+  	}
+
+	int Member::numFollowers(){       //implimentation return num_of_Followers
+		return this->followers.size();
+  	}
+
+	void Member::follow (Member &m){       //implimentation update following
+		if(this->follows.count(m.getId())==0 && m.getId()!=this->id){
+ 			this->follows.insert(pair<int,Member *>(m.getId(),&m));
+			m.followers.insert(pair<int,Member *>(this->id,this));
+		}
+	}
+
+	void Member::unfollow (Member &m){       //implimentation update followers
+		if(this->follows.count(m.getId())!=0){
+		        this->follows.erase(m.getId());
+			m.followers.erase(this->id);
+		}
+	}
+
+	Member::~Member(){	 //implimentation
+		count_members--;                                     //update the num of members
+		map<int,Member *>::iterator j=followers.begin();
+		while(j!=followers.end()){                           //update my followers list of following
+			if((j->second)->follows.count(this->id)!=0)
+		              (j->second)->follows.erase((j->second)->follows.find(this->id));
+			j++;
+		}
+
+		map<int,Member *>::iterator i=follows.begin();
+		while(i!=follows.end()){                              //update my following num of followers
+			if((i->second)->followers.count(this->id)!=0)
+		              (i->second)->followers.erase((i->second)->followers.find(this->id));
+			i++;
+		}	
+	}
