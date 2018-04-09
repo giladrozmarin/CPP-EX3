@@ -1,10 +1,9 @@
 #include <iostream>
+#include "Member.cpp"
 using namespace std;
 
-#include "Member.h"
-
-
 Member avi, beni, chana;
+
 
 void test1() {
 	Member dana;
@@ -15,7 +14,7 @@ void test1() {
 	cout << "  " << Member::count() << endl; // 4
 }
 
-int main() {
+int main(){
 	cout << avi.numFollowers() << " " << avi.numFollowing() << endl; // 0 0
 	avi.follow(beni);
 	cout << avi.numFollowers() << " " << avi.numFollowing() << endl; // 0 1
@@ -34,4 +33,6 @@ int main() {
 	cout << chana.numFollowers() << " " <<  chana.numFollowing() << endl; // 0 0
 	cout << avi.numFollowers() << " " <<  avi.numFollowing() << endl; // 0 0
 	cout << Member::count() << endl; // 3
-}
+
+
+};
