@@ -8,7 +8,7 @@ using namespace std;
     int Member::_count = 0; //Initilizationd
 
     Member::Member(){   //constructer 
-      (*this)._id = otherId;
+      this->_id = otherId;
       _count++;
       otherId++;
     }
