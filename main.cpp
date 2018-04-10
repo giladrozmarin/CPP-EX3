@@ -4,26 +4,29 @@
 #include "doctest.h"
 
 TEST_CASE("testing the getId function") {
-	Member first;
-    CHECK(first.getId() == 0);
-  	Member second;
-    CHECK(second.getId() == 1);
-	Member third;
-    CHECK(third.getId() == 2);
+	Member a,b,c,d,e,f;
+    CHECK(a.getId() == 0);
+    CHECK(b.getId() == 1);
+    CHECK(c.getId() == 2);
+	CHECK(d.getId() == 3);
+    CHECK(e.getId() == 4);
+    CHECK(f.getId() == 5);
     
 }
 
 TEST_CASE("testing the numFollowing function") {
-   Member first,second,third;
-	CHECK(first.numFollowing() == 0);
-   first.follow(first);
-	CHECK(first.numFollowing() == 0);
-   first.follow(second);
-	CHECK(first.numFollowing() == 1);
-   first.follow(second);
-	CHECK(first.numFollowing() == 1);
-   first.follow(third);
-	CHECK(first.numFollowing() == 2);
+   Member a,b,c;
+	CHECK(a.numFollowing() == 0);
+    a.follow(a);
+	CHECK(a.numFollowing() == 0);
+    a.follow(b);
+	b.follow(b);
+	CHECK(a.numFollowing() == 1);
+	CHECK(b.numFollowing() == 0);
+    a.follow(b);
+	CHECK(a.numFollowing() == 1);
+    a.follow(c);
+	CHECK(a.numFollowing() == 2);
 }
 
 TEST_CASE("testing the numFollowers function") {
