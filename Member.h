@@ -5,9 +5,12 @@
  *    Author : nati & gilad 
  * 
  * */
+
+#pragma once
 #include <iostream>
 #include <map>
-#pragma once
+
+
 
 class Member{
     private: 
